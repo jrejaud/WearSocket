@@ -1,0 +1,14 @@
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+
+.idea/
+*.iml
+.signing/
+
+bintray.user=jrejaud
+bintray.apikey=31009d477b3378c053e933f4d8fee742614eebec
