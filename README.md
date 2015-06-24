@@ -85,4 +85,11 @@ public class MyActivity implements WearSocket.MessageListener
     }
 ```
 
-## MIT License
+## License and Attribution
+
+MIT License
+
+WearSocket uses:
+[Gson](https://code.google.com/p/google-gson/source/browse/trunk/gson/LICENSE?r=369) 
+[Android Wearable APIs](https://developer.android.com/training/building-wearables.html)
+[Google Play Services](https://components.xamarin.com/license/googleplayservices)
