@@ -85,4 +85,4 @@ public class MyActivity implements WearSocket.MessageListener
     }
 ```
 
-
+## MIT License
