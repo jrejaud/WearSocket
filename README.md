@@ -14,14 +14,14 @@ Note: WearSocket uses jCenter repository and is not on Maven Central atm.
 
 ## Setup 
 
-First, get an instance of the messenger and set it up by passing Activity Context
+First, get an instance of the WearSocket and set it up by passing Activity Context
 
 ```java
 WearSocket wearSocket = WearSocket.getInstance();
 wearSocket.setupAndConnect(context);
 ```
 
-## [Sending and Receiving Messages](https://developer.android.com/training/wearables/data-layer/messages.html) between Android Wear and Android Mobile
+## [Sending and Receiving Messages](https://developer.android.com/training/wearables/data-layer/messages.html) between Wear and Mobile
 
 ### Sending Message
 
@@ -51,7 +51,7 @@ public class MyActivity implements WearSocket.DataListener
     }
 ```
 
-## [Synching Data Updates](https://developer.android.com/training/wearables/data-layer/data-items.html) between Android Wear and Android Mobile
+## [Synching Data Updates](https://developer.android.com/training/wearables/data-layer/data-items.html) between Wear and Mobile
 
 ### Updating a data item
 
