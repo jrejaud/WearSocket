@@ -6,7 +6,9 @@ This library (inspired by Socket.IO), aims to streamline both [message sending](
 ## Installation
 
 Add this line to your ```depedencies``` in your ```build.gradle``` file:
-```compile 'com.github.jrejaud:wear-socket:0.1.0'```
+```
+compile 'com.github.jrejaud:wear-socket:0.1.0'
+```
 
 Note: WearSocket uses jCenter repository and is not on Maven Central atm.
 
