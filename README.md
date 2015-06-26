@@ -3,7 +3,12 @@ A wrapper for socket communication between Android Wear and Android Mobile
 There is a lot of boiler plate to send data between Android Wear and Android Mobile devices.
 This library (inspired by Socket.IO), aims to streamline both [message sending](https://developer.android.com/training/wearables/data-layer/messages.html) and [synching data updates](https://developer.android.com/training/wearables/data-layer/data-items.html).
 
-### jCenter dependency coming soon
+## Installation
+
+Add this line to your ```depedencies``` in your ```build.gradle``` file:
+```compile 'com.github.jrejaud:wear-socket:0.1.0'```
+
+Note: WearSocket uses jCenter repository and is not on Maven Central atm.
 
 ## Setup 
 
