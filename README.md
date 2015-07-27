@@ -14,11 +14,12 @@ Note: WearSocket uses jCenter repository and is not on Maven Central atm.
 
 ## Setup 
 
-First, get an instance of the WearSocket and set it up by passing Activity Context
+First, get an instance of the WearSocket and set it up by passing Context and the [wear app capabilities](http://developer.android.com/training/wearables/data-layer/messages.html#SendMessage) 
 
 ```java
 WearSocket wearSocket = WearSocket.getInstance();
-wearSocket.setupAndConnect(context);
+String androidWearCapability = ...;
+wearSocket.setupAndConnect(context, androidWearCapability);
 ```
 
 ## [Sending and Receiving Messages](https://developer.android.com/training/wearables/data-layer/messages.html) between Wear and Mobile
