@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/jrejaud/WearSocket'
     gitUrl = 'https://github.com/jrejaud/WearSocket.git'
 
-    libraryVersion = '0.1.0'
+    libraryVersion = '0.1.2'
 
     developerId = 'jrejaud'
     developerName = 'Jordan Rejaud'
@@ -46,7 +46,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.google.android.support:wearable:1.1.0'
-    compile 'com.google.android.gms:play-services-wearable:7.0.0'
+    compile 'com.google.android.gms:play-services-wearable:7.5.0'
     compile 'com.google.code.gson:gson:2.2.4'
 }
 

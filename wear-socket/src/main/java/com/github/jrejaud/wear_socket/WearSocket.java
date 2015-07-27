@@ -9,6 +9,8 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.wearable.CapabilityApi;
+import com.google.android.gms.wearable.CapabilityInfo;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
@@ -17,6 +19,7 @@ import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.MessageEvent;
+import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
@@ -40,9 +43,10 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
     private String TAG = "WearSocket";
     private Context context;
 
-    private String phoneNode = null;
+    private String nodeID = null;
     private String receiverPath= null;
     private String dataPath = null;
+    private String capability = null;
 
     private MessageListener messageReceived;
     private DataListener dataChanged;
@@ -58,32 +62,16 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
     //Setup and State Handling
     //********************************************************************
 
-    public void setupAndConnect(Context context) {
+    public void setupAndConnect(Context context, final String capability) {
         this.context = context;
+        this.capability = capability;
         Log.d(TAG, "Starting up Google Api Client");
         googleApiClient = new GoogleApiClient.Builder(context)
                 .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                     @Override
                     public void onConnected(Bundle bundle) {
                         Log.d(TAG, "Google Api Client Connected, bundle: " + bundle);
-                        //Start looking for a node
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Log.d(TAG, "Start Node Search");
-                                NodeApi.GetConnectedNodesResult nodes =
-                                        Wearable.NodeApi
-                                                .getConnectedNodes(googleApiClient).await();
-                                if (nodes == null) {
-                                    Log.d(TAG, "No nodes found");
-                                    showErrorAndCloseApp("Error, cannot find node, make sure watch is paired to phone",true);
-                                }
-                                //TODO need to make this compatible with getting android wear connection over wifi instead of just bluetooth
-                                phoneNode = nodes.getNodes().get(0).getId();
-                                Log.d(TAG,"Node found: "+phoneNode);
-                                nodeFound.release();
-                            }
-                        }).start();
+                        findCapableNode(capability);
                     }
 
                     @Override
@@ -101,6 +89,62 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
                 .build();
         googleApiClient.connect();
     }
+
+    private void findCapableNode(final String capability) {
+        Log.d(TAG,"Start looking for a capable node");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CapabilityApi.GetCapabilityResult result =
+                        Wearable.CapabilityApi.getCapability(googleApiClient,capability,CapabilityApi.FILTER_REACHABLE).await();
+                CapabilityInfo capabilityInfo = result.getCapability();
+                Set<Node> nodes = capabilityInfo.getNodes();
+                String nodeID = findBestNodeId(nodes);
+                Log.d(TAG,"Node found: "+nodeID);
+                if (nodeID==null) {
+                    showErrorAndCloseApp("Error, cannot find a connected device",true);
+                    return;
+                }
+                WearSocket.this.nodeID = nodeID;
+                nodeFound.release();
+            }
+        }).start();
+    }
+
+    private String findBestNodeId(Set<Node> nodes) {
+        String bestNodeId = null;
+        for (Node node : nodes) {
+            if (node.isNearby()) {
+                bestNodeId = node.getId();
+            }
+            bestNodeId = node.getId();
+        }
+        return bestNodeId;
+    }
+
+    @Deprecated
+    private void findFirstNode() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "Start Node Search");
+                NodeApi.GetConnectedNodesResult nodes =
+                        Wearable.NodeApi
+                                .getConnectedNodes(googleApiClient).await();
+                if (nodes.getNodes() == null) {
+                    Log.d(TAG, "No nodes found");
+                    showErrorAndCloseApp("Error, cannot find any nodes, make sure watch is paired to phone",true);
+                }
+                //TODO need to make this compatible with getting android wear connection over wifi instead of just bluetooth
+                nodeID = nodes.getNodes().get(0).getId(); //This is causing errors
+                Log.d(TAG,"Node found: "+ nodeID);
+                nodeFound.release();
+            }
+        }).start();
+    }
+
+
+    //*************************************************************************************
 
     private void showErrorAndCloseApp(String message, boolean closeApp) {
         Log.e(TAG, message);
@@ -139,7 +183,7 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
         @Override
         protected Boolean doInBackground(Void... voids) {
 
-            while (phoneNode==null) {
+            while (nodeID ==null) {
                 Log.d(TAG,"Node not found yet, waiting until one is found to send message");
                 try {
                     nodeFound.acquire();
@@ -148,10 +192,10 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
                 }
             }
 
-            Log.d(TAG,"Sending message to node: "+phoneNode);
+            Log.d(TAG,"Sending message to nodeID: "+ nodeID);
 
             MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(
-                    googleApiClient, phoneNode, path, message.getBytes()).await();
+                    googleApiClient, nodeID, path, message.getBytes()).await();
 
             if (!result.getStatus().isSuccess()) {
                 return false;
