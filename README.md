@@ -40,10 +40,10 @@ Start your message listener and listen for the path that you are associating wit
 wearSocket.startMessageListener(context,"myPath");
 ```
 
-Implement WearSocket.DataListener and override messageReceived to start listening for messages
+Implement WearSocket.MessageListener and override messageReceived to start listening for messages
 
 ```java
-public class MyActivity implements WearSocket.DataListener
+public class MyActivity implements WearSocket.MessageListener
 ```
 ```java
     @Override
