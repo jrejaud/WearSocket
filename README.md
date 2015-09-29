@@ -22,6 +22,23 @@ String androidWearCapability = ...;
 wearSocket.setupAndConnect(context, androidWearCapability);
 ```
 
+### Advertising Capabilities (copied from official Google [documentation](http://developer.android.com/training/wearables/data-layer/messages.html#SendMessage))
+
+Create an XML configuration file in the res/values/ directory of your project and name it wear.xml.
+Add a resource named android_wear_capabilities to wear.xml.
+Define capabilities that the device provides.
+Note: Capabilities are custom strings that you define and must be unique within your app.
+
+The following example shows how to add a capability named voice_transcription to wear.xml:
+
+```
+<resources>
+    <string-array name="android_wear_capabilities">
+        <item>voice_transcription</item>
+    </string-array>
+</resources>
+```
+
 ## [Sending and Receiving Messages](https://developer.android.com/training/wearables/data-layer/messages.html) between Wear and Mobile
 
 ### Sending Message
