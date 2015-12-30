@@ -103,8 +103,13 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
                 String nodeID = findBestNodeId(nodes);
                 Log.d(TAG,"Node found: "+nodeID);
                 if (nodeID==null) {
-                    String message = "Error, cannot find a connected device";
-                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                    final String message = "Error, cannot find a connected device";
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     new Throwable(message);
                     return;
                 }
