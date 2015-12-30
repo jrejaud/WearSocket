@@ -107,11 +107,10 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
                         }
                     });
-                    new Throwable(message);
-                    return;
+                    throw new RuntimeException(message);
                 }
                 WearSocket.this.nodeID = nodeID;
                 nodeFound.release();
