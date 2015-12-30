@@ -63,7 +63,7 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
     //Setup and State Handling
     //********************************************************************
 
-    public void setupAndConnect(Context context, final String capability) {
+    public void setupAndConnect(final Context context, final String capability) {
         this.context = context;
         this.capability = capability;
         Log.d(TAG, "Starting up Google Api Client");
@@ -83,7 +83,9 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
                 .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
                     public void onConnectionFailed(ConnectionResult result) {
-                        showErrorAndCloseApp("Error, cannot connect", true);
+                        String message = "Cannot start google api client";
+                        Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                        throw new RuntimeException("Cannot start google api client");
                     }
                 })
                 .addApi(Wearable.API)
@@ -120,12 +122,15 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
 
     private String findBestNodeId(Set<Node> nodes) {
         String bestNodeId = null;
+        Log.d(TAG,"Found Set of nodes: "+nodes.size());
         for (Node node : nodes) {
             if (node.isNearby()) {
-                bestNodeId = node.getId();
+                Log.d(TAG,"Found nearby node: "+node.getId());
+                return node.getId();
             }
             bestNodeId = node.getId();
         }
+        Log.d(TAG,"No nearby node found, settling for: "+bestNodeId);
         return bestNodeId;
     }
 
