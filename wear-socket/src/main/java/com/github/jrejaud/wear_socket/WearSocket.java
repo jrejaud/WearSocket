@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -102,7 +103,9 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
                 String nodeID = findBestNodeId(nodes);
                 Log.d(TAG,"Node found: "+nodeID);
                 if (nodeID==null) {
-                    showErrorAndCloseApp("Error, cannot find a connected device",true);
+                    String message = "Error, cannot find a connected device";
+                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                    new Throwable(message);
                     return;
                 }
                 WearSocket.this.nodeID = nodeID;
@@ -147,6 +150,7 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
     //*************************************************************************************
 
     private void showErrorAndCloseApp(String message, boolean closeApp) {
+        Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
         Log.e(TAG, message);
         disconnect();
         if (closeApp) {
