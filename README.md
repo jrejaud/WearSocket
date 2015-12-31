@@ -22,8 +22,6 @@ dependencies {
 }
 ```	
 
-Note: WearSocket uses jCenter repository and is not on Maven Central atm.
-
 ## Setup 
 
 First, get an instance of the WearSocket and set it up by passing Context and the [wear app capabilities](http://developer.android.com/training/wearables/data-layer/messages.html#SendMessage) 
