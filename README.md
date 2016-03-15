@@ -22,7 +22,7 @@ allprojects {
 
 ```
 dependencies {
-	    compile 'com.github.jrejaud:WearSocket:v1.0.3'
+	    compile 'com.github.jrejaud:WearSocket:v1.0.4'
 }
 ```	
 
