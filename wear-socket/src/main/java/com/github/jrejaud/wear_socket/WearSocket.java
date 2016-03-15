@@ -148,7 +148,7 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
                     showErrorAndCloseApp("Error, cannot find any nodes, make sure watch is paired to phone",true);
                 }
                 //TODO need to make this compatible with getting android wear connection over wifi instead of just bluetooth
-                nodeID = nodes.getNodes().get(0).getId(); //This is causing errors
+                nodeID = nodes.getNodes().get(0).getId();
                 Log.d(TAG,"Node found: "+ nodeID);
                 nodeFound.release();
             }
