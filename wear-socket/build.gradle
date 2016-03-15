@@ -24,6 +24,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.google.android.gms:play-services-wearable:8.4.0'
     //Non-official support library
+    //http://developer.android.com/training/wearables/apps/layouts.html#UiLibrary
     compile 'com.google.android.support:wearable:1.1.0'
     compile 'com.google.code.gson:gson:2.2.4'
 }
