@@ -1,4 +1,8 @@
 # WearSocket
+
+[![](https://jitpack.io/v/jrejaud/WearSocket.svg)](https://jitpack.io/#jrejaud/WearSocket)
+
+
 A wrapper for socket communication between Android Wear and Android Mobile.
 There is a lot of boiler plate to send data between Android Wear and Android Mobile devices.
 This library (inspired by Socket.IO), aims to streamline both [message sending](https://developer.android.com/training/wearables/data-layer/messages.html) and [synching data updates](https://developer.android.com/training/wearables/data-layer/data-items.html).
