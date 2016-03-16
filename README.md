@@ -14,7 +14,6 @@ Use [JitPack](https://jitpack.io/#jrejaud/WearSocket)
 ```
 allprojects {
 	repositories {
-		...
 		maven { url "https://jitpack.io" }
 	}
 }
