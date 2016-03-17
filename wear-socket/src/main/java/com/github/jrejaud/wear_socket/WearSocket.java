@@ -51,6 +51,7 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
 
     private MessageListener messageReceived;
     private DataListener dataChanged;
+    private onErrorListener errorListener;
 
     public static WearSocket getInstance() {
         return ourInstance;
@@ -63,8 +64,9 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
     //Setup and State Handling
     //********************************************************************
 
-    public void setupAndConnect(final Context context, final String capability) {
+    public void setupAndConnect(final Context context, final String capability, onErrorListener errorListener) {
         this.context = context;
+        this.errorListener = errorListener;
         this.capability = capability;
         Log.d(TAG, "Starting up Google Api Client");
         googleApiClient = new GoogleApiClient.Builder(context)
@@ -103,14 +105,9 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
                 String nodeID = findBestNodeId(nodes);
                 Log.d(TAG,"Node found: "+nodeID);
                 if (nodeID==null) {
-                    final String message = "Error, cannot find a connected device";
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    throw new RuntimeException(message);
+                    //This might be cause by there not being a watch paired to the device
+                    errorListener.onError(new Throwable("Error, cannot find a connected device"));
+                    return;
                 }
                 WearSocket.this.nodeID = nodeID;
                 nodeFound.release();
@@ -329,5 +326,13 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
 
     public void setKeyDataType(String key, Type type) {
         keyTypes.put(key, type);
+    }
+
+    //********************************************************************
+    //Error Listener
+    //********************************************************************
+
+    public interface onErrorListener {
+        void onError(Throwable throwable);
     }
 }
