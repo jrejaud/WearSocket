@@ -14,7 +14,6 @@ Use [JitPack](https://jitpack.io/#jrejaud/WearSocket)
 ```
 allprojects {
 	repositories {
-		...
 		maven { url "https://jitpack.io" }
 	}
 }
@@ -22,7 +21,7 @@ allprojects {
 
 ```
 dependencies {
-	    compile 'com.github.jrejaud:WearSocket:v1.0.3'
+	    compile 'com.github.jrejaud:WearSocket:v1.0.4'
 }
 ```	
 
