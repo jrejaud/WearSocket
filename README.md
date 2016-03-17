@@ -21,7 +21,7 @@ allprojects {
 
 ```
 dependencies {
-	    compile 'com.github.jrejaud:WearSocket:v1.0.4'
+	    compile 'com.github.jrejaud:WearSocket:v1.0.5'
 }
 ```	
 
@@ -32,7 +32,12 @@ First, get an instance of the WearSocket and set it up by passing Context and th
 ```java
 WearSocket wearSocket = WearSocket.getInstance();
 String androidWearCapability = ...;
-wearSocket.setupAndConnect(context, androidWearCapability);
+wearSocket.setupAndConnect(context, androidWearCapability, new onErrorListener() {
+       	@Override
+        public void onError(Throwable throwable) {
+        	//Throws an error here if there is a problem connecting to the other device.
+        }
+});
 ```
 
 ### Advertising Capabilities (copied from official Google [documentation](http://developer.android.com/training/wearables/data-layer/messages.html#SendMessage))
