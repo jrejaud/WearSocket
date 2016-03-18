@@ -1,6 +1,8 @@
 # WearSocket
 
 [![](https://jitpack.io/v/jrejaud/WearSocket.svg)](https://jitpack.io/#jrejaud/WearSocket)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-WearSocket-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2416)
+
 
 
 A wrapper for socket communication between Android Wear and Android Mobile.
@@ -21,7 +23,7 @@ allprojects {
 
 ```
 dependencies {
-	    compile 'com.github.jrejaud:WearSocket:v1.0.5'
+	    compile 'com.github.jrejaud:WearSocket:1.0.5'
 }
 ```	
 
