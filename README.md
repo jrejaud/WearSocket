@@ -21,7 +21,7 @@ allprojects {
 
 ```
 dependencies {
-	    compile 'com.github.jrejaud:WearSocket:v1.0.5'
+	    compile 'com.github.jrejaud:WearSocket:1.0.5'
 }
 ```	
 
