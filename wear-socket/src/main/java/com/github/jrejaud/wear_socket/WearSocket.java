@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -105,8 +106,14 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
                 String nodeID = findBestNodeId(nodes);
                 Log.d(TAG,"Node found: "+nodeID);
                 if (nodeID==null) {
-                    //This might be cause by there not being a watch paired to the device
-                    errorListener.onError(new Throwable("Error, cannot find a connected device"));
+                    //This might be caused by there not being a watch paired to the device
+                    //Handler is to run it in the UI thread
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            errorListener.onError(new Throwable("Error, cannot find a connected device"));
+                        }
+                    });
                     return;
                 }
                 WearSocket.this.nodeID = nodeID;
