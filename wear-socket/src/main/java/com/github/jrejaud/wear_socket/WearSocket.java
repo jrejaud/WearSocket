@@ -169,13 +169,14 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
         }
     }
 
-    public void disconnect() {
+    public void disconnect() {	
         if (googleApiClient!=null) {
             googleApiClient.disconnect();
-        }
-        Wearable.MessageApi.removeListener(googleApiClient, this);
-        Wearable.DataApi.removeListener(googleApiClient, this);
-    }
+        	Wearable.MessageApi.removeListener(googleApiClient, this);
+        	Wearable.DataApi.removeListener(googleApiClient, this);
+    	}
+	}
+
 
     //********************************************************************
     //Send Message
