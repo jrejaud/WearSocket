@@ -85,8 +85,13 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
                 })
                 .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
-                    public void onConnectionFailed(ConnectionResult result) {
-                        throw new RuntimeException(result.toString());
+                    public void onConnectionFailed(final ConnectionResult result) {
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context,"Connection Failed: "+result.getErrorMessage(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 })
                 .addApi(Wearable.API)
