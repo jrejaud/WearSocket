@@ -107,13 +107,14 @@ public class WearSocket implements MessageApi.MessageListener, DataApi.DataListe
                 Log.d(TAG,"Node found: "+nodeID);
                 if (nodeID==null) {
                     //This might be caused by there not being a watch paired to the device
-                    //Handler is to run it in the UI thread
-                    new Handler().post(new Runnable() {
+                    //Run it on the UI thread
+                    ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             errorListener.onError(new Throwable("Error, cannot find a connected device"));
                         }
                     });
+
                     return;
                 }
                 WearSocket.this.nodeID = nodeID;
